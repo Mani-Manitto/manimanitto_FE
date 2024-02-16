@@ -1,7 +1,21 @@
+import React, { useEffect } from 'react';
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 
 export default function App({ Component, pageProps }: AppProps) {
+  useEffect(() => {
+    const setVh = () => {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    };
+
+    window.addEventListener('resize', setVh);
+    setVh();
+
+    return () => {
+      window.removeEventListener('resize', setVh);
+    };
+  }, []);
   return (
     <div className="container">
       <Component {...pageProps} />
@@ -16,9 +30,9 @@ export default function App({ Component, pageProps }: AppProps) {
         
         .container {
           min-width: 350px;
-          max-width: 450px;
-          width: 100vh;
-          height: 100vh;
+          max-width: 500px;
+          width: 100vw;
+          height: calc(var(--vh, 1vh) * 100);
           background-color: white;
         }
       `}</style>

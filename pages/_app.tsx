@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import "@/styles/globals.css";
+import "@/styles/globals.scss";
 import type { AppProps } from "next/app";
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -23,7 +23,7 @@ export default function App({ Component, pageProps }: AppProps) {
         body {
           margin: 0;
           padding: 0;
-          background-color: blue;
+          background-color: #EEFFFB;
           display: flex;
           justify-content: center;
         }

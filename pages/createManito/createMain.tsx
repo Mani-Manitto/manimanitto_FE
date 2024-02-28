@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import Link from 'next/link';
 
 const sentences = ['반가워요, \n마니또지기님!', '마니또 게임을 \n도와드릴게요'];
 
@@ -26,7 +27,7 @@ export default function CreateHome() {
             <div className="character-container">
                 <iframe src="https://lottie.host/embed/be36fba1-43f0-4d12-a882-cf40fa5d84bd/npTev2uCYy.json"></iframe>
             </div>
-            <button className="button1">마니또 방 만들기</button>
+            <Link href="./createRoomInfo" className="button1">마니또 방 만들기</Link>
         </div>
         <style jsx>
             {`

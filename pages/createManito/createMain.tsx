@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import Link from 'next/link';
+import Image from 'next/image';
 
 const sentences = ['반가워요, \n마니또지기님!', '마니또 게임을 \n도와드릴게요'];
 
@@ -18,14 +19,14 @@ export default function CreateHome() {
   return (
     <>
         <div className="container">
-            <p className="logo">마니마니또</p>
+            <Image src="/logo.png" width={156} height={40} alt="logo" priority />
             <div className="greeting">
                 {sentences[index].split('\n').map((line, index) => (
                     <p key={index}>{line}</p>
                 ))}
             </div>
             <div className="character-container">
-                <iframe src="https://lottie.host/embed/be36fba1-43f0-4d12-a882-cf40fa5d84bd/npTev2uCYy.json"></iframe>
+                <iframe src="https://lottie.host/embed/dbcba6af-f2f2-48a5-b199-4d3fd363bd4a/0iMHpZi3RQ.json"></iframe>
             </div>
             <Link href="./createRoomInfo" className="button1">마니또 방 만들기</Link>
         </div>
@@ -54,8 +55,8 @@ export default function CreateHome() {
 
                 .character-container {
                     position: relative;
-                    width: 300px;
-                    height: 300px;
+                    width: 400px;
+                    height: 400px;
                     overflow: hidden;
                 }
 

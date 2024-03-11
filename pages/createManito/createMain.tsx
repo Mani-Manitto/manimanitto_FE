@@ -60,24 +60,11 @@ export default function CreateHome() {
                     overflow: hidden;
                 }
 
-                .character-container::before {
-                    content: '';
-                    position: absolute;
-                    width: 200%;
-                    height: 200%;
-                    top: -50%;
-                    left: -50%;
-                    background-color: #bceceb;
-                    border-radius: 50%;
-                    z-index: -1;
-                }
-
                 iframe{
                     border: none;
                     position: relative;
                     width: 100%;
                     height: 100%;
-
                 }
             
             `}

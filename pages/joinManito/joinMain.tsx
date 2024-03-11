@@ -7,7 +7,10 @@ export default function JoinHome() {
     return (
         <>
             <div className="container">
-                <Image className="mainImage" src="/bell.png" width={130} height={200} alt="종 이미지" />
+                <Image src="/logo.png" width={156} height={40} alt="logo" priority />
+                <div className="character-container">
+                    <iframe src="https://lottie.host/embed/18e7eee8-dc7b-4ea0-b0f3-a9c91c59a365/KWCWIxtkjH.json"></iframe>
+                </div>
                 <div className="greeting">
                     <h2>마니또 초대장이<br/>도착했어요!</h2>
                 </div>
@@ -33,8 +36,23 @@ export default function JoinHome() {
                         display: flex;
                         flex-direction: column;
                         justify-content: space-around;
-                        padding-top: 100px;
+                        padding-top: 50px;
+                        padding-bottom: 50px;
                         align-items: center;
+                    }
+
+                    .character-container {
+                        position: relative;
+                        width: 400px;
+                        height: 400px;
+                        overflow: hidden;
+                    }
+
+                    iframe{
+                        border: none;
+                        position: relative;
+                        width: 100%;
+                        height: 100%;
                     }
 
                     .mainImage {

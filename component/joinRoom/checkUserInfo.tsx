@@ -14,7 +14,9 @@ const Modal: React.FC<ModalProps> = ({isOpen, onClose, name, children}) => {
         <>
             <div className="modal-overlay">
                 <div className="modal">
-                    <Image src='/image 67.png' width={156} height={160} alt='logo' />
+                    <div className="character-container">
+                        <iframe src="https://lottie.host/embed/05967cc6-c420-4148-8225-cd093b7bf563/mSKmU4VQ0m.json"></iframe>
+                    </div>
                     <h1 className="title">정말 '{name}' 님이 맞나요?</h1>
                     <div className="btns">
                         <button className="button1">네, 맞아요</button>
@@ -34,6 +36,20 @@ const Modal: React.FC<ModalProps> = ({isOpen, onClose, name, children}) => {
                     display: flex;
                     justify-content: bottom;
                     align-items: center;
+                }
+
+                .character-container {
+                    position: relative;
+                    width: 225px;
+                    height: 225px;
+                    overflow: hidden;
+                }
+
+                iframe{
+                    border: none;
+                    position: relative;
+                    width: 100%;
+                    height: 100%;
                 }
 
                 .modal {

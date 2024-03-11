@@ -13,7 +13,7 @@ export default function JoinComplete() {
                 <p>너만 알고 있어야해 멍!</p>
             </div>
             <div className="character-container">
-                <iframe src="https://lottie.host/embed/885b8708-9de8-4142-a23f-84b70fb40517/N2ut8VvDq3.json"></iframe>
+                <iframe src="https://lottie.host/embed/6f4ef4c3-5dec-4c7c-9e2b-603c42561666/MEKz0qliha.json"></iframe>
             </div>
             <div className="btns">
                 <button className="button1">이미지 저장하기</button>
@@ -85,8 +85,8 @@ export default function JoinComplete() {
 
                 .character-container {
                     position: relative;
-                    width: 300px;
-                    height: 300px;
+                    width: 400px;
+                    height: 400px;
                     overflow: hidden;
                 }
                 iframe{

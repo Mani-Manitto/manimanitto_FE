@@ -9,7 +9,7 @@ export default function CreateComplete() {
     <>
         <div className="container">
             <div className="character-container">
-                <iframe src="https://lottie.host/embed/be36fba1-43f0-4d12-a882-cf40fa5d84bd/npTev2uCYy.json"></iframe>
+                <iframe src="https://lottie.host/embed/0014543c-0fb3-4e61-81f8-d1531228a214/pHxjcBdy1z.json"></iframe>
             </div>
             <div className="greeting">
                 <p>마니또 초대장이 <br/>만들어졌어요!</p>
@@ -76,8 +76,8 @@ export default function CreateComplete() {
 
                 .character-container {
                     position: relative;
-                    width: 300px;
-                    height: 300px;
+                    width: 400px;
+                    height: 400px;
                     overflow: hidden;
                 }
 

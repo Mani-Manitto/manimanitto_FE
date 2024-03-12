@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import axios from "axios";
 import { TextField } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
@@ -51,6 +52,26 @@ export default function CreateRoomInfo() {
 
     const openModal = () => setIsOpen(true);
     const closeModal = () => setIsOpen(false);
+
+    const requestData = {
+        roomName: inputTitle,
+        names: participantList.map(name => ({name}))
+    };
+
+    const postRoomInfo = async () => {
+            const baseUrl = process.env.API_BASE_URL;
+            const apiURL = `${baseUrl}/manitto`;
+
+            axios.post(apiURL, requestData)
+                .then(response => {
+                    console.log(requestData);
+                    console.log('API 호출 성공', response.data);
+                })
+                .catch(error => {
+                    console.log(requestData);
+                    console.error('API 호출 에러', error);
+                });
+    };
 
     useEffect(() => {
         console.log(participantList);
@@ -133,7 +154,7 @@ export default function CreateRoomInfo() {
                                 <button className="button3" onClick={() => openModal()}>다음</button>
                             )}
                         </div>
-                        <Modal isOpen={isOpen} onClose={closeModal}>
+                        <Modal isOpen={isOpen} onClose={closeModal} callAPI={postRoomInfo}>
                             <div className="participants">
                                 {participantList.map((participant, index) => (
                                     <div className={`participant${index === 0 ? '1' : (index % 4 >= 2 ? (index % 2 === 0 ? '2' : '1') : (index % 2 === 0 ? '1' : '2'))}`} key={index}> 

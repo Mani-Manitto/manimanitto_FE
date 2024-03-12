@@ -28,7 +28,7 @@ export default function CreateHome() {
             <div className="character-container">
                 <iframe src="https://lottie.host/embed/dbcba6af-f2f2-48a5-b199-4d3fd363bd4a/0iMHpZi3RQ.json"></iframe>
             </div>
-            <Link href="./createRoomInfo" className="button1">마니또 방 만들기</Link>
+            <Link href="/createManito/createRoomInfo" className="button1">마니또 방 만들기</Link>
         </div>
         <style jsx>
             {`

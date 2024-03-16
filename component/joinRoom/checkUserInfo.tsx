@@ -1,5 +1,6 @@
 import React, {ReactNode} from "react"
-import Image from 'next/image';
+import Lottie from 'react-lottie';
+import * as animationData from '../../public/image4.json';
 
 interface ModalProps {
     isOpen: boolean;
@@ -11,12 +12,21 @@ interface ModalProps {
 const Modal: React.FC<ModalProps> = ({isOpen, onClose, name, movePage, children}) => {
     if(!isOpen) return null;
 
+    const defaultOptions = {
+        loop: true,
+        autoplay: true,
+        animationData: animationData,
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid slice'
+        }
+    };
+
     return (
         <>
             <div className="modal-overlay">
                 <div className="modal">
                     <div className="character-container">
-                        <iframe src="https://lottie.host/embed/05967cc6-c420-4148-8225-cd093b7bf563/mSKmU4VQ0m.json"></iframe>
+                        <Lottie options={defaultOptions} height={250} width={250} />
                     </div>
                     <h1 className="title">정말 '{name}' 님이 맞나요?</h1>
                     <div className="btns">
@@ -44,6 +54,7 @@ const Modal: React.FC<ModalProps> = ({isOpen, onClose, name, movePage, children}
                     width: 225px;
                     height: 225px;
                     overflow: hidden;
+                    margin-bottom: 20px;
                 }
 
                 iframe{
@@ -60,7 +71,7 @@ const Modal: React.FC<ModalProps> = ({isOpen, onClose, name, movePage, children}
                     justify-content: space-around;
                     align-items: center;
                     background-color: #ffffff;
-                    padding: 30px 10px;
+                    padding: 20px 10px;
                     border-radius: 40px 40px 0 0;
                     height: 60%;
                     width: 100%;

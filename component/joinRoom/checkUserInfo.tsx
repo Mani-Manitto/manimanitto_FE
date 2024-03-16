@@ -5,9 +5,10 @@ interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
     name: string;
+    movePage: () => void;
     children: ReactNode;
 }
-const Modal: React.FC<ModalProps> = ({isOpen, onClose, name, children}) => {
+const Modal: React.FC<ModalProps> = ({isOpen, onClose, name, movePage, children}) => {
     if(!isOpen) return null;
 
     return (
@@ -19,7 +20,7 @@ const Modal: React.FC<ModalProps> = ({isOpen, onClose, name, children}) => {
                     </div>
                     <h1 className="title">정말 '{name}' 님이 맞나요?</h1>
                     <div className="btns">
-                        <button className="button1">네, 맞아요</button>
+                        <button className="button1" onClick={() => movePage()}>네, 맞아요</button>
                         <button className="button2" onClick={() => onClose()}>제 이름이 아니에요</button>
                     </div>
                 </div>

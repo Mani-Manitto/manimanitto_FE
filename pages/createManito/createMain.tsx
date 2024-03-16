@@ -1,11 +1,22 @@
 import React, {useState, useEffect} from "react";
 import Link from 'next/link';
 import Image from 'next/image';
+import Lottie from 'react-lottie';
+import * as animationData from '../../public/image1.json';
 
 const sentences = ['반가워요, \n마니또지기님!', '마니또 게임을 \n도와드릴게요'];
 
 export default function CreateHome() {
     const [index, setIndex] = useState<number>(0);
+
+    const defaultOptions = {
+        loop: true,
+        autoplay: true,
+        animationData: animationData,
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid slice'
+        }
+    };
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -26,7 +37,7 @@ export default function CreateHome() {
                 ))}
             </div>
             <div className="character-container">
-                <iframe src="https://lottie.host/embed/dbcba6af-f2f2-48a5-b199-4d3fd363bd4a/0iMHpZi3RQ.json"></iframe>
+                <Lottie options={defaultOptions} height={400} width={400} />
             </div>
             <Link href="/createManito/createRoomInfo" className="button1">마니또 방 만들기</Link>
         </div>

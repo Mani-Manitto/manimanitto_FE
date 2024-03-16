@@ -2,7 +2,6 @@ import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState, useCallback, useRef } from 'react';
 import axios from 'axios';
-import html2canvas from 'html2canvas';
 import htmlToImage, { toPng } from 'html-to-image';
 import Lottie from 'react-lottie';
 import * as animationData from '../../../public/image5.json';
@@ -74,7 +73,6 @@ const JoinComplete: NextPage<roomProps> = ( props ) => {
                   <p>너만 알고 있어야해 멍!</p>
               </div>
               <div className="character-container">
-                {/* <iframe src="https://lottie.host/embed/6f4ef4c3-5dec-4c7c-9e2b-603c42561666/MEKz0qliha.json"></iframe> */}
                 <Lottie options={defaultOptions} height={400} width={400} />
               </div>
               <div className="btns">
@@ -89,7 +87,7 @@ const JoinComplete: NextPage<roomProps> = ( props ) => {
                     flex-direction: column;
                     justify-content: space-around;
                     align-items: center;
-                    padding-top: 30px;
+                    padding: 50px 0;
                   }
                   .greeting {
                       text-align: center;

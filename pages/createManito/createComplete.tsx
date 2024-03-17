@@ -1,11 +1,13 @@
 import React, {useState, useEffect} from "react";
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 import Image from 'next/image';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Lottie from 'react-lottie';
 import * as animationData from '../../public/image2.json';
 
 export default function CreateComplete() {
+    const router = useRouter();
+    const [copyUrl, setCopyUrl] = useState<string>('');
 
     const defaultOptions = {
         loop: true,
@@ -16,11 +18,29 @@ export default function CreateComplete() {
         }
     };
 
+    const copyUrlToClipboard = () => {
+        navigator.clipboard.writeText(copyUrl)
+            .then(() => {
+                console.log('링크가 성공적으로 복사되었습니다.');
+                // 복사가 성공하면 여기에 추가적인 로직을 추가할 수 있습니다.
+            })
+            .catch((error) => {
+                console.error('링크 복사 중 오류 발생:', error);
+            });
+    };
+
+
+    useEffect(() => {
+        const roomCode: string = router.query.roomCode?.toString() || '';
+        console.log("방코드:",roomCode);
+        setCopyUrl(`/joinManito/joinMain/${roomCode}`);
+
+    }, [router.query.roomCode])
+
   return (
     <>
         <div className="container">
             <div className="character-container">
-                {/* <iframe src="https://lottie.host/embed/0014543c-0fb3-4e61-81f8-d1531228a214/pHxjcBdy1z.json"></iframe> */}
                 <Lottie options={defaultOptions} height={275} width={275} />
             </div>
             <div className="greeting">
@@ -34,7 +54,7 @@ export default function CreateComplete() {
                     카카오톡 공유
                 </div>
                 <div className="copyBtn">
-                    <button>
+                    <button onClick={copyUrlToClipboard}>
                         <ContentCopyIcon style={{color: "white", width: 50, height: 50 }} />
                     </button>
                     링크 복사

@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { useRouter } from 'next/router';
+import KakaoBtn from "@/component/common/KaKaoBtn";
 import Image from 'next/image';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Lottie from 'react-lottie';
@@ -8,6 +9,7 @@ import * as animationData from '../../public/image2.json';
 export default function CreateComplete() {
     const router = useRouter();
     const [copyUrl, setCopyUrl] = useState<string>('');
+    const [copyCode, setCopyCode] = useState<string>('');
 
     const defaultOptions = {
         loop: true,
@@ -33,6 +35,7 @@ export default function CreateComplete() {
     useEffect(() => {
         const roomCode: string = router.query.roomCode?.toString() || '';
         console.log("방코드:",roomCode);
+        setCopyCode(roomCode);
         setCopyUrl(`/joinManito/joinMain/${roomCode}`);
 
     }, [router.query.roomCode])
@@ -47,12 +50,19 @@ export default function CreateComplete() {
                 <p>마니또 초대장이 <br/>만들어졌어요!</p>
             </div>
             <div className="btns">
-                <div className="kakaoBtn">
+                {/* <div className="kakaoBtn">
                     <button>
                         <Image src="/image 68.png" width={120} height={120} alt="카카오톡 로고" />
                     </button>
                     카카오톡 공유
-                </div>
+                </div> */}
+                <KakaoBtn 
+                    description=" 💌 마니또 초대장 도착 💌
+
+                        즐거운 마니또 세계로 오신걸 환영합니다!
+                        마니또를 확인하고 행복한 시간을 보내요!" 
+                    roomCode={copyCode} 
+                />
                 <div className="copyBtn">
                     <button onClick={copyUrlToClipboard}>
                         <ContentCopyIcon style={{color: "white", width: 50, height: 50 }} />

@@ -26,6 +26,15 @@ const JoinComplete: NextPage<roomProps> = ( props ) => {
         }
     };
 
+    const movePage = () => {
+        router.push(
+            {
+                pathname: `/joinManito/joinMain/${props.roomInfo.roomCode}`,
+            },
+            `/joinManito/joinMain/${props.roomInfo.roomCode}`
+        )
+    }
+
     const saveAsImage = useCallback(() => {
         if(ref.current === null){
             return;
@@ -70,14 +79,14 @@ const JoinComplete: NextPage<roomProps> = ( props ) => {
                   <span>당신의 마니또는<br/><span className="userName">{name}</span>입니다!</span>
               </div>
               <div className="infoMessage">
-                  <p>너만 알고 있어야해 멍!</p>
+                  <p>너만 알고 있어야해!</p>
               </div>
               <div className="character-container">
                 <Lottie options={defaultOptions} height={400} width={400} />
               </div>
               <div className="btns">
                   <button className="button1" onClick={saveAsImage}>이미지 저장하기</button>
-                  <button className="button2">처음으로</button>
+                  <button className="button2" onClick={() => movePage()}>처음으로</button>
               </div>
           </div>
           <style jsx>

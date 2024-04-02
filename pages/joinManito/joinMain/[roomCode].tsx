@@ -121,7 +121,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
         console.error("올바른 방을 찾지 못했습니다.", err)
         return {paths: [], fallback: false};
     }
-    // const paths = [{ params: {roomCode: '76SuErRfy5'}}];    // 여기에 저장된 이름만 페이지가 만들어짐 >> 그러면 전체 목록을 가져오는 것도 필요한가
 
 }
 

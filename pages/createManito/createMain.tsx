@@ -48,6 +48,7 @@ export default function CreateHome() {
                     flex-direction: column;
                     justify-content: space-around;
                     align-items: center;
+                    padding: 60px 0;
                 }
                 .greeting {
                     text-align: center;
@@ -62,6 +63,8 @@ export default function CreateHome() {
                 
                 .greeting p{
                     font-size: 32px;
+                    font-weight: 600;
+                    line-height: 50px;
                 }
 
                 .character-container {

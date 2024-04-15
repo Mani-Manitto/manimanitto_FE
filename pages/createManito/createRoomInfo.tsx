@@ -1,4 +1,6 @@
 import React, {useState, useEffect} from "react";
+import { useRouter } from 'next/router';
+import axios from "axios";
 import { TextField } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
@@ -12,6 +14,8 @@ export default function CreateRoomInfo() {
     const [participantList, setParticipantList] = useState<string[]>([]);
     const totalSteps: number = 2;
     const [isOpen, setIsOpen] = useState<boolean>(false);
+
+    const router = useRouter();
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         setInputTitle(e.target.value);
@@ -51,6 +55,51 @@ export default function CreateRoomInfo() {
 
     const openModal = () => setIsOpen(true);
     const closeModal = () => setIsOpen(false);
+
+    const requestData = {
+        roomName: inputTitle,
+        names: participantList.map(name => ({name}))
+    };
+
+    const postRoomInfo = async (): Promise<string> => {
+        try {
+            const baseUrl: string = process.env.API_BASE_URL || '';
+            const apiURL: string = `${baseUrl}/manitto`;
+
+            const response = await axios.post(apiURL, requestData);
+            console.log('API 호출 성공', response.data);
+            return response.data.roomCode;
+        }
+        catch(error) {
+            console.error('API 호출 에러', error);
+            throw error;
+        }
+    };
+
+    const movePage = (roomCode: string): void => {
+        router.push(
+            {
+                pathname: `/createManito/createComplete`,
+                query: {
+                    "roomCode": roomCode,
+                },
+            },
+            `/createManito/createComplete`
+        )
+    };
+
+    const callAPIs = async () => {
+        try{
+            const roomCode: string = await postRoomInfo();
+            movePage(roomCode);
+        } catch (error) {
+            console.error('API 호출 및 페이지 이동 중 오류 발생', error);
+            throw error;
+        }
+
+    };
+
+
 
     useEffect(() => {
         console.log(participantList);
@@ -133,7 +182,7 @@ export default function CreateRoomInfo() {
                                 <button className="button3" onClick={() => openModal()}>다음</button>
                             )}
                         </div>
-                        <Modal isOpen={isOpen} onClose={closeModal}>
+                        <Modal isOpen={isOpen} onClose={closeModal} callAPI={callAPIs}>
                             <div className="participants">
                                 {participantList.map((participant, index) => (
                                     <div className={`participant${index === 0 ? '1' : (index % 4 >= 2 ? (index % 2 === 0 ? '2' : '1') : (index % 2 === 0 ? '1' : '2'))}`} key={index}> 

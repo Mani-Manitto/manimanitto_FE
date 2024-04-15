@@ -3,9 +3,10 @@ import React, {ReactNode} from "react"
 interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
+    callAPI: () => void;
     children: ReactNode;
 }
-const Modal: React.FC<ModalProps> = ({isOpen, onClose, children}) => {
+const Modal: React.FC<ModalProps> = ({isOpen, onClose, callAPI, children}) => {
     if(!isOpen) return null;
 
     return (
@@ -16,7 +17,7 @@ const Modal: React.FC<ModalProps> = ({isOpen, onClose, children}) => {
                     <p className="subTitle">이 창을 지나면 다시 수정할 수 없어요</p>
                     {children}
                     <div className="btns">
-                        <button className="button1">네, 맞아요</button>
+                        <button className="button1" onClick={() => callAPI()}>네, 맞아요</button>
                         <button className="button2" onClick={() => onClose()}>아니에요, 수정할래요</button>
                     </div>
                 </div>

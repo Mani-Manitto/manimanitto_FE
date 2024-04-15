@@ -1,23 +1,36 @@
 import React, {ReactNode} from "react"
-import Image from 'next/image';
+import Lottie from 'react-lottie';
+import * as animationData from '../../public/image4.json';
 
 interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
     name: string;
-    children: ReactNode;
+    movePage: () => void;
+    children?: ReactNode;
 }
-const Modal: React.FC<ModalProps> = ({isOpen, onClose, name, children}) => {
+const Modal: React.FC<ModalProps> = ({isOpen, onClose, name, movePage, children}) => {
     if(!isOpen) return null;
+
+    const defaultOptions = {
+        loop: true,
+        autoplay: true,
+        animationData: animationData,
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid slice'
+        }
+    };
 
     return (
         <>
             <div className="modal-overlay">
                 <div className="modal">
-                    <Image src='/image 67.png' width={156} height={160} alt='logo' />
+                    <div className="character-container">
+                        <Lottie options={defaultOptions} height={250} width={250} />
+                    </div>
                     <h1 className="title">정말 '{name}' 님이 맞나요?</h1>
                     <div className="btns">
-                        <button className="button1">네, 맞아요</button>
+                        <button className="button1" onClick={() => movePage()}>네, 맞아요</button>
                         <button className="button2" onClick={() => onClose()}>제 이름이 아니에요</button>
                     </div>
                 </div>
@@ -36,6 +49,21 @@ const Modal: React.FC<ModalProps> = ({isOpen, onClose, name, children}) => {
                     align-items: center;
                 }
 
+                .character-container {
+                    position: relative;
+                    width: 225px;
+                    height: 225px;
+                    overflow: hidden;
+                    margin-bottom: 20px;
+                }
+
+                iframe{
+                    border: none;
+                    position: relative;
+                    width: 100%;
+                    height: 100%;
+                }
+
                 .modal {
                     align-self: flex-end;
                     display: flex;
@@ -43,7 +71,7 @@ const Modal: React.FC<ModalProps> = ({isOpen, onClose, name, children}) => {
                     justify-content: space-around;
                     align-items: center;
                     background-color: #ffffff;
-                    padding: 30px 10px;
+                    padding: 20px 10px;
                     border-radius: 40px 40px 0 0;
                     height: 60%;
                     width: 100%;

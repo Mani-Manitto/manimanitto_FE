@@ -1,18 +1,29 @@
-import React, {useState} from "react";
-import InputLabel from '@mui/material/InputLabel';
+import { GetServerSideProps, NextPage } from 'next';
+import { useRouter } from 'next/router';
+import React, { useState } from "react";
+import axios from "axios";
 import MenuItem from '@mui/material/MenuItem';
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent, selectClasses } from '@mui/material/Select';
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
 import Alert from '@mui/material/Alert';
-import Modal from '../../component/joinRoom/checkUserInfo';
+import Modal from '../../../component/joinRoom/checkUserInfo';
+import room from '../../../types/room';
 
-export default function joinSelectName() {
+interface RoomProps {
+    roomInfo: room;
+    roomCode: string;
+}
+
+const JoinSelectName: NextPage<RoomProps> = ( props ) => {
 
     const [name, setName] = useState<string>('');
+    const [nameList, ] = useState<string[]>(props.roomInfo.names.map(name => name.name));
     const [isWarning, setIsWarning] = useState<boolean>(false);
     const [isOpen, setIsOpen] = useState<boolean>(false);
+
+    const router = useRouter();
 
     const handleChange = (event : SelectChangeEvent) => {
         setName(event.target.value);
@@ -26,6 +37,19 @@ export default function joinSelectName() {
         }
     };
     const closeModal = () => setIsOpen(false);
+
+    const movePage = () => {
+        // router.push(`/joinManito/joinComplete/${props.roomInfo.roomCode}?name=${name}`);
+        router.push(
+            {
+                pathname: `/joinManito/joinComplete/${props.roomCode}`,
+                query: {
+                    "name": name,
+                },
+            },
+            `/joinManito/joinComplete/${props.roomCode}`
+        )
+    }
 
     return (
         <>
@@ -73,10 +97,10 @@ export default function joinSelectName() {
                                 boxShadow: "rgba(0, 197, 179, 0.25) 0px 13px 27px -5px, rgba(0, 197, 179, 0.3) 0px 8px 16px -8px"
                             }}
                         >
-                            <MenuItem value={0}>None</MenuItem>
-                            <MenuItem value={1}>One</MenuItem>
-                            <MenuItem value={2}>Two</MenuItem>
-                            <MenuItem value={3}>Three</MenuItem>
+                            <MenuItem value={''}>이름을 선택해주세요</MenuItem>
+                            { nameList.map((name, index) => (
+                                <MenuItem key={index} value={name}>{name}</MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </div>
@@ -87,7 +111,7 @@ export default function joinSelectName() {
                     </Alert>
                 )}
                 <button className="button1" onClick={openModal}>마니또 확인하기</button>
-                <Modal isOpen={isOpen} onClose={closeModal} name={name}>
+                <Modal isOpen={isOpen} onClose={closeModal} name={name} movePage={movePage}>
 
                 </Modal>
             </div>
@@ -118,3 +142,79 @@ export default function joinSelectName() {
         </>
     )
 }
+
+export default JoinSelectName;
+
+export const getServerSideProps: GetServerSideProps<RoomProps> = async ({ params }) => {
+    try{
+        const roomCode: string = params?.roomCode as string;
+        console.log(params);
+
+        const baseUrl = process.env.API_BASE_URL;
+        const apiURL = `${baseUrl}/${roomCode}`;
+
+        const response = await axios.get(apiURL);
+        const roomInfo: room = response.data;
+
+        return {
+            props: {
+                roomCode,
+                roomInfo,
+            },
+        };
+    }catch(err) {
+        console.error("해당 방을 찾지 못했습니다.", err);
+        
+        return {
+            redirect: {
+                destination: `/joinManito/404`,
+                permanent: false,
+            },
+        };
+    }
+};
+
+// export const getStaticPaths: GetStaticPaths = async () => {
+//     try {
+//         const baseUrl = process.env.API_BASE_URL;
+//         const response = await axios.get(`${baseUrl}/roomCodes`);
+//         const roomCodes = response.data;
+//         console.log(response.data);
+
+//         const paths = roomCodes.map((room: {roomCode: string}) => ({
+//             params: {roomCode: room.roomCode}
+//         }));
+
+//         console.log(paths);
+
+//         return { paths, fallback: false};
+//     } catch(err){
+//         console.error("올바른 방을 찾지 못했습니다.", err)
+//         return {paths: [], fallback: false};
+//     }
+
+// }
+
+// export const getStaticProps: GetStaticProps = async ({ params }) => {
+//     const roomCode: string | string[] | undefined = params?.roomCode;
+
+//     const baseUrl = process.env.API_BASE_URL;
+//     const apiURL = `${baseUrl}`;
+
+//     const roomInfo: room = { 
+//         roomCode: roomCode, 
+//         roomName: '',
+//         names: [],
+//     }
+
+//     try {
+//         const response = await axios.get(`${apiURL}/${roomCode}`);
+//         console.log(response.data);
+//         roomInfo.roomName = response.data.roomName;
+//         roomInfo.names = response.data.names;
+//     } catch (error) {
+//         console.error(error);
+//     }
+ 
+//     return { props: { roomInfo } };
+// }

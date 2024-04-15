@@ -21,7 +21,7 @@ export default function CreateHome() {
     useEffect(() => {
         const interval = setInterval(() => {
             setIndex((prev) => (prev === sentences.length - 1 ? 0 : prev + 1));
-        }, 4900);
+        }, 5000);
 
         return () => clearInterval(interval);
     },[]);
@@ -32,8 +32,18 @@ export default function CreateHome() {
         <div className="container">
             <Image src="/logo.png" width={156} height={40} alt="logo" priority />
             <div className="greeting">
-                {sentences[index].split('\n').map((line, index) => (
-                    <p key={index}>{line}</p>
+                {sentences.map((sentence, idx) => (
+                    <p
+                    key={idx}
+                    className={idx === index ? "active" : ""}
+                    >
+                    {sentence.split("\n").map((line, lineIdx) => (
+                        <React.Fragment key={lineIdx}>
+                            {line}
+                            <br />
+                        </React.Fragment>
+                    ))}
+                    </p>
                 ))}
             </div>
             <div className="character-container">
@@ -52,19 +62,21 @@ export default function CreateHome() {
                 }
                 .greeting {
                     text-align: center;
-                    animation: fadeInOut 5s linear infinite;
-                }
-
-                @keyframes fadeInOut {
-                    0% { opacity: 0; }
-                    50% { opacity: 1; }
-                    100% { opacity: 0; }
                 }
                 
                 .greeting p{
                     font-size: 32px;
                     font-weight: 600;
                     line-height: 50px;
+                    opacity: 0;
+                    transition: opacity 1.5s ease-in-out;
+                    position: absolute;
+                    
+                    transform: translate(-50%, -50%);
+                }
+
+                .greeting p.active{
+                    opacity: 1;
                 }
 
                 .character-container {

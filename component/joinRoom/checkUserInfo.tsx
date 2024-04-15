@@ -7,7 +7,7 @@ interface ModalProps {
     onClose: () => void;
     name: string;
     movePage: () => void;
-    children: ReactNode;
+    children?: ReactNode;
 }
 const Modal: React.FC<ModalProps> = ({isOpen, onClose, name, movePage, children}) => {
     if(!isOpen) return null;

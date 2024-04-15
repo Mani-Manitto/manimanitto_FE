@@ -1,4 +1,4 @@
-import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useState } from "react";
 import axios from "axios";
@@ -11,12 +11,12 @@ import Alert from '@mui/material/Alert';
 import Modal from '../../../component/joinRoom/checkUserInfo';
 import room from '../../../types/room';
 
-interface roomProps {
-    className: string;
+interface RoomProps {
     roomInfo: room;
+    roomCode: string;
 }
 
-const joinSelectName: NextPage<roomProps> = ( props ) => {
+const JoinSelectName: NextPage<RoomProps> = ( props ) => {
 
     const [name, setName] = useState<string>('');
     const [nameList, ] = useState<string[]>(props.roomInfo.names.map(name => name.name));
@@ -42,12 +42,12 @@ const joinSelectName: NextPage<roomProps> = ( props ) => {
         // router.push(`/joinManito/joinComplete/${props.roomInfo.roomCode}?name=${name}`);
         router.push(
             {
-                pathname: `/joinManito/joinComplete/${props.roomInfo.roomCode}`,
+                pathname: `/joinManito/joinComplete/${props.roomCode}`,
                 query: {
                     "name": name,
                 },
             },
-            `/joinManito/joinComplete/${props.roomInfo.roomCode}`
+            `/joinManito/joinComplete/${props.roomCode}`
         )
     }
 
@@ -143,49 +143,78 @@ const joinSelectName: NextPage<roomProps> = ( props ) => {
     )
 }
 
-export default joinSelectName;
+export default JoinSelectName;
 
-export const getStaticPaths: GetStaticPaths = async () => {
-    try {
+export const getServerSideProps: GetServerSideProps<RoomProps> = async ({ params }) => {
+    try{
+        const roomCode: string = params?.roomCode as string;
+        console.log(params);
+
         const baseUrl = process.env.API_BASE_URL;
-        const response = await axios.get(`${baseUrl}/roomCodes`);
-        const roomCodes = response.data;
-        console.log(response.data);
+        const apiURL = `${baseUrl}/${roomCode}`;
 
-        const paths = roomCodes.map((room: {roomCode: string}) => ({
-            params: {roomCode: room.roomCode}
-        }));
+        const response = await axios.get(apiURL);
+        const roomInfo: room = response.data;
 
-        console.log(paths);
-
-        return { paths, fallback: false};
-    } catch(err){
-        console.error("올바른 방을 찾지 못했습니다.", err)
-        return {paths: [], fallback: false};
+        return {
+            props: {
+                roomCode,
+                roomInfo,
+            },
+        };
+    }catch(err) {
+        console.error("해당 방을 찾지 못했습니다.", err);
+        
+        return {
+            redirect: {
+                destination: `/joinManito/404`,
+                permanent: false,
+            },
+        };
     }
+};
 
-}
+// export const getStaticPaths: GetStaticPaths = async () => {
+//     try {
+//         const baseUrl = process.env.API_BASE_URL;
+//         const response = await axios.get(`${baseUrl}/roomCodes`);
+//         const roomCodes = response.data;
+//         console.log(response.data);
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-    const roomCode: string | string[] | undefined = params?.roomCode;
+//         const paths = roomCodes.map((room: {roomCode: string}) => ({
+//             params: {roomCode: room.roomCode}
+//         }));
 
-    const baseUrl = process.env.API_BASE_URL;
-    const apiURL = `${baseUrl}`;
+//         console.log(paths);
 
-    const roomInfo: room = { 
-        roomCode: roomCode, 
-        roomName: '',
-        names: [],
-    }
+//         return { paths, fallback: false};
+//     } catch(err){
+//         console.error("올바른 방을 찾지 못했습니다.", err)
+//         return {paths: [], fallback: false};
+//     }
 
-    try {
-        const response = await axios.get(`${apiURL}/${roomCode}`);
-        console.log(response.data);
-        roomInfo.roomName = response.data.roomName;
-        roomInfo.names = response.data.names;
-    } catch (error) {
-        console.error(error);
-    }
+// }
+
+// export const getStaticProps: GetStaticProps = async ({ params }) => {
+//     const roomCode: string | string[] | undefined = params?.roomCode;
+
+//     const baseUrl = process.env.API_BASE_URL;
+//     const apiURL = `${baseUrl}`;
+
+//     const roomInfo: room = { 
+//         roomCode: roomCode, 
+//         roomName: '',
+//         names: [],
+//     }
+
+//     try {
+//         const response = await axios.get(`${apiURL}/${roomCode}`);
+//         console.log(response.data);
+//         roomInfo.roomName = response.data.roomName;
+//         roomInfo.names = response.data.names;
+//     } catch (error) {
+//         console.error(error);
+//     }
  
-    return { props: { roomInfo } };
-}
+//     return { props: { roomInfo } };
+// }

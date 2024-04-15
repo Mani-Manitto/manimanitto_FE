@@ -1,4 +1,4 @@
-import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState, useCallback, useRef } from 'react';
 import axios from 'axios';
@@ -7,12 +7,12 @@ import Lottie from 'react-lottie';
 import * as animationData from '../../../public/image5.json';
 import room from '../../../types/room';
 
-interface roomProps {
-    className: string;
+interface RoomProps {
     roomInfo: room;
+    roomCode: string;
 }
 
-const JoinComplete: NextPage<roomProps> = ( props ) => {
+const JoinComplete: NextPage<RoomProps> = ( props ) => {
     const [name, setName] = useState<string>('')
     const ref = useRef<HTMLDivElement>(null);
     const router = useRouter();
@@ -29,9 +29,9 @@ const JoinComplete: NextPage<roomProps> = ( props ) => {
     const movePage = () => {
         router.push(
             {
-                pathname: `/joinManito/joinMain/${props.roomInfo.roomCode}`,
+                pathname: `/joinManito/joinMain/${props.roomCode}`,
             },
-            `/joinManito/joinMain/${props.roomInfo.roomCode}`
+            `/joinManito/joinMain/${props.roomCode}`
         )
     }
 
@@ -59,7 +59,7 @@ const JoinComplete: NextPage<roomProps> = ( props ) => {
             try {
                 console.log(query);
                 const baseUrl = process.env.API_BASE_URL;
-                const response = await axios.post(`${baseUrl}/${props.roomInfo.roomCode}`, {
+                const response = await axios.post(`${baseUrl}/${props.roomCode}`, {
                     name: query
                 });
                 console.log("마니또 조회 결과: ", response.data.manittoName);
@@ -175,48 +175,75 @@ const JoinComplete: NextPage<roomProps> = ( props ) => {
   
 export default JoinComplete;
 
-export const getStaticPaths: GetStaticPaths = async () => {
-    try {
+export const getServerSideProps: GetServerSideProps<RoomProps> = async ({ params }) => {
+    try{
+        const roomCode: string = params?.roomCode as string;
+
         const baseUrl = process.env.API_BASE_URL;
-        const response = await axios.get(`${baseUrl}/roomCodes`);
-        const roomCodes = response.data;
-        console.log(response.data);
+        const apiURL = `${baseUrl}/${roomCode}`;
 
-        const paths = roomCodes.map((room: {roomCode: string}) => ({
-            params: {roomCode: room.roomCode}
-        }));
+        const response = await axios.get(apiURL);
+        const roomInfo: room = response.data;
 
-        console.log(paths);
-
-        return { paths, fallback: false};
-    } catch(err){
-        console.error("올바른 방을 찾지 못했습니다.", err)
-        return {paths: [], fallback: false};
+        return {
+            props: {
+                roomInfo,
+                roomCode,
+            },
+        };
+    }catch(err) {
+        console.error("해당 방을 찾지 못했습니다.", err);
+        return {
+            redirect: {
+                destination: '/404',
+                permanent: false,
+            },
+        };
     }
-    // const paths = [{ params: {roomCode: '76SuErRfy5'}}];    // 여기에 저장된 이름만 페이지가 만들어짐 >> 그러면 전체 목록을 가져오는 것도 필요한가
+};
 
-}
+// export const getStaticPaths: GetStaticPaths = async () => {
+//     try {
+//         const baseUrl = process.env.API_BASE_URL;
+//         const response = await axios.get(`${baseUrl}/roomCodes`);
+//         const roomCodes = response.data;
+//         console.log(response.data);
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-    const roomCode: string | string[] | undefined = params?.roomCode;
+//         const paths = roomCodes.map((room: {roomCode: string}) => ({
+//             params: {roomCode: room.roomCode}
+//         }));
 
-    const baseUrl = process.env.API_BASE_URL;
-    const apiURL = `${baseUrl}`;
+//         console.log(paths);
 
-    const roomInfo: room = { 
-        roomCode: roomCode, 
-        roomName: '',
-        names: [],
-    }
+//         return { paths, fallback: false};
+//     } catch(err){
+//         console.error("올바른 방을 찾지 못했습니다.", err)
+//         return {paths: [], fallback: false};
+//     }
+//     // const paths = [{ params: {roomCode: '76SuErRfy5'}}];    // 여기에 저장된 이름만 페이지가 만들어짐 >> 그러면 전체 목록을 가져오는 것도 필요한가
 
-    try {
-        const response = await axios.get(`${apiURL}/${roomCode}`);
-        console.log(response.data);
-        roomInfo.roomName = response.data.roomName;
-        roomInfo.names = response.data.names;
-    } catch (error) {
-        console.error(error);
-    }
+// }
+
+// export const getStaticProps: GetStaticProps = async ({ params }) => {
+//     const roomCode: string | string[] | undefined = params?.roomCode;
+
+//     const baseUrl = process.env.API_BASE_URL;
+//     const apiURL = `${baseUrl}`;
+
+//     const roomInfo: room = { 
+//         roomCode: roomCode, 
+//         roomName: '',
+//         names: [],
+//     }
+
+//     try {
+//         const response = await axios.get(`${apiURL}/${roomCode}`);
+//         console.log(response.data);
+//         roomInfo.roomName = response.data.roomName;
+//         roomInfo.names = response.data.names;
+//     } catch (error) {
+//         console.error(error);
+//     }
  
-    return { props: { roomInfo } };
-}
+//     return { props: { roomInfo } };
+// }

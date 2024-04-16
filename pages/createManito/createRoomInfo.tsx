@@ -149,7 +149,7 @@ export default function CreateRoomInfo() {
                                 onChange={handleInputPersonChange}
                                 fullWidth
                             />
-                            <button className="plusBtn" onClick={handleAddParticipant}><AddIcon fontSize="large"/></button>
+                            <button className="plusBtn" onClick={handleAddParticipant}><AddIcon style={{width: 45, height: 45}} fontSize="large"/></button>
                         </div>
                         <div className="participants">
                             {participantList.map((participant, index) => (

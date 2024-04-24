@@ -36,7 +36,7 @@ export default function App({ Component, pageProps }: AppProps) {
           
           .container {
             min-width: 350px;
-            max-width: 500px;
+            max-width: 700px;
             width: 100vw;
             height: calc(var(--vh, 1vh) * 100);
             background-color: white;

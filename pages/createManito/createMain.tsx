@@ -30,7 +30,7 @@ export default function CreateHome() {
   return (
     <>
         <div className="container">
-            <Image src="/logo.png" width={156} height={40} alt="logo" priority />
+            <Image src="/logo.svg" width={200} height={50} alt="logo" priority />
             <div className="greeting">
                 {sentences.map((sentence, idx) => (
                     <p
@@ -47,7 +47,7 @@ export default function CreateHome() {
                 ))}
             </div>
             <div className="character-container">
-                <Lottie options={defaultOptions} height={400} width={400} />
+                <Lottie options={defaultOptions} height={332} width={332} />
             </div>
             <Link href="/createManito/createRoomInfo" className="button1">마니또 방 만들기</Link>
         </div>
@@ -58,12 +58,11 @@ export default function CreateHome() {
                     flex-direction: column;
                     justify-content: space-around;
                     align-items: center;
-                    padding: 60px 0;
+                    padding: 30px 0;
                 }
                 .greeting {
                     text-align: center;
                 }
-                
                 .greeting p{
                     font-size: 32px;
                     font-weight: 600;
@@ -71,7 +70,7 @@ export default function CreateHome() {
                     opacity: 0;
                     transition: opacity 1.5s ease-in-out;
                     position: absolute;
-                    
+                    margin-top: 20px;
                     transform: translate(-50%, -50%);
                 }
 
@@ -79,12 +78,12 @@ export default function CreateHome() {
                     opacity: 1;
                 }
 
-                .character-container {
+                {/* .character-container {
                     position: relative;
                     width: 400px;
                     height: 400px;
                     overflow: hidden;
-                }
+                } */}
 
                 iframe{
                     border: none;

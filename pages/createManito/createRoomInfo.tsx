@@ -149,7 +149,7 @@ export default function CreateRoomInfo() {
                                 onChange={handleInputPersonChange}
                                 fullWidth
                             />
-                            <button className="plusBtn" onClick={handleAddParticipant}><AddIcon fontSize="large"/></button>
+                            <button className="plusBtn" onClick={handleAddParticipant}><AddIcon style={{width: 45, height: 45}} fontSize="large"/></button>
                         </div>
                         <div className="participants">
                             {participantList.map((participant, index) => (
@@ -201,7 +201,7 @@ export default function CreateRoomInfo() {
                 }
 
                 .innerContainer {
-                        height: 60vh;
+                        height: 70vh;
                         display: flex;
                         flex-direction: column;
                         align-items: center;
@@ -232,8 +232,8 @@ export default function CreateRoomInfo() {
                     align-items: flex-start;
                     align-content: flex-start;
                     width: 80%;
-                    height: 300px;
-                    margin: 50px;
+                    height: 20vh;
+                    margin: 10px;
                 }
 
                 .participant1{
@@ -294,19 +294,19 @@ export default function CreateRoomInfo() {
                 .minAlert {
                     position: relative;
                     width: 75%;
-                    height: 100px;
+                    height: 10vh;
                     padding: 20px 20px;
                     border-radius: 10px;
                     text-align: center;
                     box-shadow: rgba(178, 238, 232, 0.5) 10px 13px 27px -5px, rgba(178, 238, 232, 0.8) 10px 8px 16px -8px;
-                    margin-bottom: 20px;
                 }
 
                 .btnContainer {
                     display: flex;
                     flex-direction: row;
-                    justify-content: space-between;
+                    justify-content: space-around;
                     gap: 20px;
+                    margin-top: 5vh;
                 }
 
                 form {
@@ -316,13 +316,13 @@ export default function CreateRoomInfo() {
                 }
 
                 form > button {
-                    margin-top: 40vh;
+                    margin-top: 30vh;
                 }
 
                 progress {
                     width: 80%;
                     margin: 30px auto;
-                    margin-bottom: 40%;
+                    margin-bottom: 20vh;
                     appearance: none;
                     border: none;
                 }

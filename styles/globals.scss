@@ -1,15 +1,22 @@
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('/fonts/PretendardVariable.woff2') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  font-family: "Pretendard Variable", Pretendard;
+  font-family: 'Pretendard-Regular';
 }
 
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: "Pretendard Variable", Pretendard;
+  font-family: 'Pretendard-Regular';
 }
 
 h1 {
@@ -29,7 +36,7 @@ a {
 }
 
 .button1{
-  font-family: "Pretendard Variable", Pretendard;
+  font-family: 'Pretendard-Regular';
   margin-top: 20px;
   width: 300px;
   height: 70px;
@@ -44,7 +51,7 @@ a {
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 .button2{
-  font-family: "Pretendard Variable", Pretendard;
+  font-family: 'Pretendard-Regular';
   margin-top: 20px;
   width: 300px;
   height: 70px;
@@ -56,7 +63,7 @@ a {
   box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
 }
 .button3{
-  font-family: "Pretendard Variable", Pretendard;
+  font-family: 'Pretendard-Regular';
   margin-top: 20px;
   width: 220px;
   height: 70px;
@@ -67,7 +74,7 @@ a {
   font-size: 23px;
 }
 .button4{
-  font-family: "Pretendard Variable", Pretendard;
+  font-family: 'Pretendard-Regular';
   margin-top: 20px;
   width: 110px;
   height: 70px;
